@@ -8,19 +8,16 @@ package solutions.task_238;
  * */
 class Solution {
     public int[] productExceptSelf(int[] nums) {
-        int[] ints1 = new int[nums.length];
-        int[] ints2 = new int[nums.length];
-        ints1[0] = 1;
-        ints2[nums.length - 1] = 1;
+        int[] ints = new int[nums.length];
+        ints[0] = 1;
+        int buf = 1;
         for (int i = 0; i < nums.length - 1; i++) {
-            ints1[i + 1] = ints1[i] * nums[i];
+            ints[i + 1] = ints[i] * nums[i];
         }
         for (int i = nums.length - 1; i > 0; i--) {
-            ints2[i - 1] = ints2[i] * nums[i];
+            buf *= nums[i];
+            ints[i - 1] *= buf;
         }
-        for (int i = 0; i < nums.length; i++) {
-            ints1[i] *= ints2[i];
-        }
-        return ints1;
+        return ints;
     }
 }
