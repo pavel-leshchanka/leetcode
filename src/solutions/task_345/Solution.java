@@ -3,11 +3,11 @@ package solutions.task_345;
 import java.util.ArrayList;
 import java.util.Set;
 
-//345. Reverse Vowels of a String
-/*
+/**
+ * 345. Reverse Vowels of a String
  * Given a string s, reverse only all the vowels in the string and return it.
  * The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
- * */
+ */
 class Solution {
     public String reverseVowels(String s) {
         Set<Character> a = Set.of('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U');
