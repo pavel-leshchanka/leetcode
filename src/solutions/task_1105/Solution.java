@@ -1,12 +1,5 @@
 package solutions.task_1105;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toCollection;
-
 /**
  * 1105. Filling Bookcase Shelves
  * You are given an array books where books[i] = [thicknessi, heighti] indicates the thickness and height of the ith book. You are also given an integer shelfWidth.
@@ -18,33 +11,18 @@ import static java.util.stream.Collectors.toCollection;
  */
 class Solution {
     public int minHeightShelves(int[][] books, int shelfWidth) {
-        List<List<Integer>> list1 = Arrays.stream(books)
-            .map(s -> Arrays.stream(s)
-                .boxed()
-                .collect(Collectors.toCollection(ArrayList::new)))
-            .sorted((p1, p2) -> {
-                if (!p1.get(1).equals(p2.get(1))) {
-                    return p2.get(1).compareTo(p1.get(1));
-                } else {
-                    return p2.getFirst().compareTo(p1.getFirst());
-                }
-            }).collect(toCollection(ArrayList::new));
-        int high = 0;
-        int width = 0;
-        while (!list1.isEmpty()) {
-            high += list1.getFirst().get(1);
-            width += list1.getFirst().get(0);
-            list1.removeFirst();
-            ArrayList<List<Integer>> lists = new ArrayList<>(list1);
-            for (List<Integer> list : lists) {
-                if (width + list.get(0) <= shelfWidth) {
-                    width += list.get(0);
-                    list1.remove(list);
-                }
-                if (width == shelfWidth) break;
+        int[] dp = new int[books.length + 1];
+        for (int i = 1; i <= books.length; i++) {
+            dp[i] = dp[i - 1] + books[i - 1][1];
+            int height = books[i - 1][1];
+            int width = books[i - 1][0];
+            for (int j = i - 1; j > 0 && width + books[j - 1][0] <= shelfWidth; j--) {
+                height = Math.max(height, books[j - 1][1]);
+                width += books[j - 1][0];
+                dp[i] = Math.min(dp[i], height + dp[j - 1]);
             }
-            width = 0;
+
         }
-        return high;
+        return dp[books.length];
     }
 }
